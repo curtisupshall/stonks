@@ -1,25 +1,42 @@
 import * as React from 'react'
 
+const normalizeData = (data: number[], granularity: number): number[] => {
+    if (data.length <= granularity) {
+        return data
+    } else {
+        return data // Here we should normalize the data
+    }
+}
+
 interface IProps {
     data: number[]
     granularity?: number
+    isPositive?: boolean
     width?: number
     height?: number
 }
 
 export default class Tinyplot extends React.Component<IProps> {
     render() {
-        const { data } = this.props
-        const minValue: number = Math.max(...data)
-        const maxValue: number = Math.min(...data)
-        const isPositive: boolean = data[0] <= data[data.length - 1]
-        const width = this.props.width || 160
-        const height = this.props.height || 80
-        const granularity = this.props.granularity || 10
+        const granularity: number = this.props.granularity || 20
+        const data: number[] = normalizeData(this.props.data, granularity)
+        const isPositive: boolean = this.props.isPositive || data[0] <= data[data.length - 1]
+        const width: number = this.props.width || 200
+        const height: number = this.props.height || 100
+        const unitWidth: number = width / granularity
+        const scale: number = 1 / Math.max(...data)
+
+        let plotX: number = width - unitWidth * data.length
+        let dataString: string = 'M' + plotX + ',100 '
+
+        for (let i = 0; i < data.length; i ++) {
+            dataString += `${plotX},${100 * (1 - (data[i] * scale))} `
+            plotX += unitWidth
+        }
 
         return (
             <div className='tinyplot'>
-                <svg preserveAspectRatio='none'>
+                <svg preserveAspectRatio='none' width={200} height={100} viewBox={`0 0 ${width} ${height}`}>
                     <defs>
                         <linearGradient id='positive-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
                             <stop style={{stopColor: '#66BB6A', stopOpacity: 0.68}} offset='0%' />
