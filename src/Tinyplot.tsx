@@ -1,10 +1,17 @@
 import * as React from 'react'
 
 const normalizeData = (data: number[], granularity: number): number[] => {
+    console.log('data in: ', data)
     if (data.length <= granularity) {
         return data
     } else {
-        return data // Here we should normalize the data
+        const scale:number  = granularity / data.length
+        let normalizedData:number [] = []
+        for (let i = 0; i < granularity; i ++) {
+            normalizedData.push(data[Math.floor(i * scale)])
+        }
+        console.log('data out: ', normalizedData)
+        return normalizedData
     }
 }
 
@@ -20,23 +27,35 @@ export default class Tinyplot extends React.Component<IProps> {
     render() {
         const granularity: number = this.props.granularity || 20
         const data: number[] = normalizeData(this.props.data, granularity)
-        const isPositive: boolean = this.props.isPositive || data[0] <= data[data.length - 1]
+        const isPositive: boolean = this.props.isPositive === false ? false : data[0] <= data[data.length - 1]
         const width: number = this.props.width || 200
         const height: number = this.props.height || 100
-        const unitWidth: number = width / granularity
+        const unitWidth: number = width / (granularity - 1)
+        console.log('unit width: ', unitWidth)
         const scale: number = 1 / Math.max(...data)
 
-        let plotX: number = width - unitWidth * data.length
-        let dataString: string = 'M' + plotX + ',100 '
+        let x: number = width - unitWidth * (data.length - 1)
+        console.log('initial x:', x)
+        let plotString: string = x === 0 ? 'M' : `M0,100 ${x - unitWidth},100`
 
         for (let i = 0; i < data.length; i ++) {
-            dataString += `${plotX},${100 * (1 - (data[i] * scale))} `
-            plotX += unitWidth
+            let y = Math.ceil(100 * (1 - (data[i] * scale)))
+            // console.log(`(${x}, ${y})\n`)
+            plotString = `${plotString} ${x},${y}`
+            x += unitWidth            
         }
+
+        // console.log('dataString: ', dataString)
 
         return (
             <div className='tinyplot'>
-                <svg preserveAspectRatio='none' width={200} height={100} viewBox={`0 0 ${width} ${height}`}>
+                <svg
+                    preserveAspectRatio='none'
+                    width={200}
+                    height={100}
+                    viewBox={`0 0 ${width} ${height}`}
+                    style={{overflow: 'visible'}}
+                >
                     <defs>
                         <linearGradient id='positive-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
                             <stop style={{stopColor: '#66BB6A', stopOpacity: 0.68}} offset='0%' />
@@ -48,11 +67,13 @@ export default class Tinyplot extends React.Component<IProps> {
                         </linearGradient>
                     </defs>
                     <path
-                        d='M 50, 5 60,20 70,40 80,20 90,25 100,60'
+                        // d='M 50, 5 60,20 70,40 80,20 90,25 100,60'
+                        d={plotString}
                         style={{strokeWidth: 2, fill: 'none', stroke: isPositive ? '#4CAF50' : '#f44336'}}
                     />
                     <path
-                        d='M 50, 100 50, 5 60,20 70,40 80,20 90,25 100,60 100,100 0,100'
+                        // d='M 50, 100 50, 5 60,20 70,40 80,20 90,25 100,60 100,100 0,100'
+                        d={`${plotString} 200,100 0,100`}
                         style={{fill: `url('#${isPositive ? 'positive-gradient' : 'negative-gradient'}')`}}
                     />
                 </svg>
