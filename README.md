@@ -1,1 +1,1 @@
-# tinyplot
+# stonks

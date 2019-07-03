@@ -8,7 +8,7 @@ const normalizeData = (data: number[], granularity: number): number[] => {
         const scale:number  = granularity / data.length
         let normalizedData:number [] = []
         for (let i = 0; i < granularity; i ++) {
-            normalizedData.push(data[Math.floor(i * scale)])
+            normalizedData.push(data[Math.ceil(i * scale)])
         }
         console.log('data out: ', normalizedData)
         return normalizedData
@@ -23,18 +23,22 @@ interface IProps {
     height?: number
 }
 
-export default class Tinyplot extends React.Component<IProps> {
+const DEFAULT_GRANULARITY = 20
+const DEFAULT_HEIGHT = 100
+const DEFAULT_WIDTH = 200
+
+export default class Stonk extends React.Component<IProps> {
     render() {
-        const granularity: number = this.props.granularity || 20
+        const granularity: number = this.props.granularity || DEFAULT_GRANULARITY
+        const isPositive: boolean = this.props.isPositive === false ? false : this.props.data[0] <= this.props.data[this.props.data.length - 1]
         const data: number[] = normalizeData(this.props.data, granularity)
-        const isPositive: boolean = this.props.isPositive === false ? false : data[0] <= data[data.length - 1]
-        const width: number = this.props.width || 200
-        const height: number = this.props.height || 100
+        const width: number = this.props.width || DEFAULT_WIDTH
+        const height: number = this.props.height || DEFAULT_HEIGHT
         const unitWidth: number = width / (granularity - 1)
         console.log('unit width: ', unitWidth)
         const scale: number = 1 / Math.max(...data)
 
-        let x: number = width - unitWidth * (data.length - 1)
+        let x: number = Math.ceil(width - unitWidth * (data.length - 1))
         console.log('initial x:', x)
         let plotString: string = x === 0 ? 'M' : `M0,100 ${x - unitWidth},100`
 
@@ -48,7 +52,7 @@ export default class Tinyplot extends React.Component<IProps> {
         // console.log('dataString: ', dataString)
 
         return (
-            <div className='tinyplot'>
+            <div className='stonk'>
                 <svg
                     preserveAspectRatio='none'
                     width={200}
