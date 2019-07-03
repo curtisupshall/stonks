@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 const normalizeData = (data: number[], granularity: number): number[] => {
-    console.log('data in: ', data)
     if (data.length <= granularity) {
         return data
     } else {
@@ -17,10 +16,11 @@ const normalizeData = (data: number[], granularity: number): number[] => {
 
 interface IProps {
     data: number[]
+    className?: string
     granularity?: number
+    height?: number
     isPositive?: boolean
     width?: number
-    height?: number
 }
 
 const DEFAULT_GRANULARITY = 20
@@ -35,29 +35,27 @@ export default class Stonk extends React.Component<IProps> {
         const width: number = this.props.width || DEFAULT_WIDTH
         const height: number = this.props.height || DEFAULT_HEIGHT
         const unitWidth: number = width / (granularity - 1)
-        console.log('unit width: ', unitWidth)
         const scale: number = 1 / Math.max(...data)
 
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
-        console.log('initial x:', x)
         let plotString: string = x === 0 ? 'M' : `M0,100 ${x - unitWidth},100`
 
         for (let i = 0; i < data.length; i ++) {
             let y = Math.ceil(100 * (1 - (data[i] * scale)))
-            // console.log(`(${x}, ${y})\n`)
             plotString = `${plotString} ${x},${y}`
             x += unitWidth            
         }
 
-        // console.log('dataString: ', dataString)
-
         return (
-            <div className='stonk'>
+            <div
+                className={this.props.className ? `stonk ${this.props.className}` : 'stonk'}
+                style={{display: 'block'}}
+            >
                 <svg
                     preserveAspectRatio='none'
-                    width={200}
-                    height={100}
-                    viewBox={`0 0 ${width} ${height}`}
+                    width={width}
+                    height={height}
+                    viewBox={`0 0 ${width} 100`}
                     style={{overflow: 'visible'}}
                 >
                     <defs>
@@ -71,13 +69,16 @@ export default class Stonk extends React.Component<IProps> {
                         </linearGradient>
                     </defs>
                     <path
-                        // d='M 50, 5 60,20 70,40 80,20 90,25 100,60'
                         d={plotString}
-                        style={{strokeWidth: 2, fill: 'none', stroke: isPositive ? '#4CAF50' : '#f44336'}}
+                        style={{
+                            strokeWidth: 2,
+                            fill: 'none',
+                            stroke: isPositive ? '#4CAF50' : '#f44336',
+                            vectorEffect: 'non-scaling-stroke'
+                        }}
                     />
                     <path
-                        // d='M 50, 100 50, 5 60,20 70,40 80,20 90,25 100,60 100,100 0,100'
-                        d={`${plotString} 200,100 0,100`}
+                        d={`${plotString} ${width},100 0,100`}
                         style={{fill: `url('#${isPositive ? 'positive-gradient' : 'negative-gradient'}')`}}
                     />
                 </svg>
