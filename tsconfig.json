@@ -5,10 +5,16 @@
         "noImplicitAny": true,
         "module": "commonjs",
         "lib": ["es6", "dom", "es2017"],
+        "removeComments": true,
+        "declaration": false,
         "target": "es5",
         "jsx": "react"
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*.ts",
+        "./src/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

@@ -14,7 +14,7 @@ const normalizeData = (data: number[], granularity: number): number[] => {
     }
 }
 
-interface IProps {
+interface StonkProps {
     data: number[]
     className?: string
     granularity?: number
@@ -27,7 +27,7 @@ const DEFAULT_GRANULARITY = 20
 const DEFAULT_HEIGHT = 100
 const DEFAULT_WIDTH = 200
 
-export default class Stonk extends React.Component<IProps> {
+export default class Stonk extends React.Component<StonkProps> {
     render() {
         const granularity: number = this.props.granularity || DEFAULT_GRANULARITY
         const isPositive: boolean = this.props.isPositive === false ? false : this.props.data[0] <= this.props.data[this.props.data.length - 1]

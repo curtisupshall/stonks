@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "description": "Plot data in a tiny form factor",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "dev-server": "webpack-dev-server --mode=development"
+    "dev-server": "webpack-dev-server --mode=development",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production"
   },
   "author": "Curtis Upshall",
   "license": "ISC",
