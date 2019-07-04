@@ -9,7 +9,6 @@ const normalizeData = (data: number[], granularity: number): number[] => {
         for (let i = 0; i < granularity; i ++) {
             normalizedData.push(data[Math.ceil(i * scale)])
         }
-        console.log('data out: ', normalizedData)
         return normalizedData
     }
 }
