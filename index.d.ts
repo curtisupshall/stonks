@@ -9,6 +9,12 @@ export interface StonkProps extends React.Props<Stonk> {
     width?: number;
 }
 
-export default class Stonk extends React.Component<StonkProps, any> {
-    render(): JSX.Element;
+declare class Stonk extends React.Component<StonkProps> {
+
 }
+
+declare module 'stonks' {
+
+}
+
+export default Stonk
