@@ -5,9 +5,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "dev-server": "webpack-dev-server --mode=development",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production"
+    "build": "tsc",
+    "prepare": "tsc"
   },
   "author": "Curtis Upshall",
   "license": "ISC",
