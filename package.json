@@ -1,6 +1,6 @@
 {
   "name": "stonks",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "description": "Plot data in a tiny form factor",
   "main": "lib/index.js",
   "types": "index.d.ts",
