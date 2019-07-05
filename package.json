@@ -6,15 +6,24 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepare": "tsc"
+    "prepare": "rm lib -rf && tsc"
   },
   "author": "Curtis Upshall",
   "license": "ISC",
+  "files": [
+    "/lib",
+    "index.d.ts"
+  ],
+  "homepage": "https://github.com/curtisupshall/stonks#readme",
   "devDependencies": {
     "@types/react": "^16.8.23",
     "typescript": "^3.5.2"
   },
   "dependencies": {
     "react": "^16.8.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curtisupshall/stonks.git"
   }
 }
