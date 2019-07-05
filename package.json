@@ -9,7 +9,7 @@
     "prepare": "rm lib -rf && tsc"
   },
   "author": "Curtis Upshall",
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "/lib",
     "index.d.ts"
