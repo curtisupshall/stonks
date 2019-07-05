@@ -2,6 +2,8 @@
 
 Small form-factor line chart.
 
+![Screenshot](https://user-images.githubusercontent.com/18599267/60739627-8707a480-9f17-11e9-8946-de8c0249b8ff.jpg)
+
 ## Installation
 
 ```bash
