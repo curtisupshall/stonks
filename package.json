@@ -2,7 +2,7 @@
   "name": "stonks",
   "version": "1.0.1",
   "description": "Plot data in a tiny form factor",
-  "main": "index.js",
+  "main": "lib/index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
