@@ -12,14 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.4",
-    "react-dom": "^16.8.6",
-    "source-map-loader": "^0.2.4",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.2",
-    "webpack": "^4.35.2",
-    "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "react": "^16.8.6"
