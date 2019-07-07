@@ -34,13 +34,18 @@ export default class Stonk extends React.Component<StonkProps> {
         const width: number = this.props.width || DEFAULT_WIDTH
         const height: number = this.props.height || DEFAULT_HEIGHT
         const unitWidth: number = width / (granularity - 1)
-        const scale: number = 1 / Math.max(...data)
+        const minValue: number = Math.min(...data)
+        const buffer: number = minValue < 0 ? Math.abs(minValue) : 0
+        const scale: number = 1 / (Math.max(...data) + buffer)      
+
+        console.log('Buffer: ', buffer)
 
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
-        let plotString: string = x === 0 ? 'M' : `M0,100 ${x - unitWidth},100`
+        let y: number = Math.ceil(100 * (1 - (buffer * scale)))
+        let plotString: string = x === 0 ? 'M' : `M0,${y} ${x - unitWidth},${y}`
 
         for (let i = 0; i < data.length; i ++) {
-            let y = Math.ceil(100 * (1 - (data[i] * scale)))
+            let y = Math.ceil(100 * (1 - (data[i] + buffer) * scale))
             plotString = `${plotString} ${x},${y}`
             x += unitWidth            
         }
