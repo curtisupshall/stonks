@@ -1,6 +1,8 @@
 # stonks
 
-Small form-factor line chart.
+Small form-factor line chart for [React](https://github.com/facebook/react).
+
+![Screenshot](https://user-images.githubusercontent.com/18599267/60739627-8707a480-9f17-11e9-8946-de8c0249b8ff.jpg)
 
 ## Installation
 
