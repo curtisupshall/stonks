@@ -28,6 +28,19 @@ const StonksDemo = () => {
 }
 ```
 
+## Demo
+
+To try out the component in a demo:
+
+```bash
+git clone git@github.com:curtisupshall/stonks.git
+cd stonks
+npm install
+npm run demo-server
+```
+
+Then visit `localhost:8080` in your browser.
+
 ## Props
 
 |Name|Type|Default|Description
@@ -37,6 +50,7 @@ const StonksDemo = () => {
 |`granularity`|`number`|`10`|The number of plots on the graph
 |`height`|`number`|`100`|The height of the graph (pixels)
 |`isPositive`|`boolean`|-|Overrides the styling for whether the net change of the graph is positive or negative
+|`showBaseline`|`boolean`|-|Override whether or not the zero line is visible. By default, the line isn't shown unless the `data` prop contains negative values
 |`width`|`number`|`200`|The width of the graph (pixels)
 
 >Note: In the case when granularity is smaller than the data points provided, a select number of plots are shown. In the case that granularity is larger than the data provided, the graph is pushed to the right.
