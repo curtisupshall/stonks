@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { NONAME } from 'dns';
 
 const normalizeData = (data: number[], granularity: number): number[] => {
     if (data.length <= granularity) {
@@ -19,6 +20,7 @@ interface StonkProps {
     granularity?: number
     height?: number
     isPositive?: boolean
+    showBaseline?: boolean
     width?: number
 }
 
@@ -36,13 +38,13 @@ export default class Stonk extends React.Component<StonkProps> {
         const unitWidth: number = width / (granularity - 1)
         const minValue: number = Math.min(...data)
         const buffer: number = minValue < 0 ? Math.abs(minValue) : 0
-        const scale: number = 1 / (Math.max(...data) + buffer)      
+        const scale: number = 1 / (Math.max(...data) + buffer)   
+        const baseline: number = Math.ceil(100 * (1 - (buffer * scale)))
+        const showBaseline: boolean = this.props.showBaseline === false ? false : this.props.showBaseline || baseline > 0
 
-        console.log('Buffer: ', buffer)
-
+        console.log('showBaseline: ', showBaseline)
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
-        let y: number = Math.ceil(100 * (1 - (buffer * scale)))
-        let plotString: string = x === 0 ? 'M' : `M0,${y} ${x - unitWidth},${y}`
+        let plotString: string = x === 0 ? 'M' : `M0,${baseline} ${x - unitWidth},${baseline}`
 
         for (let i = 0; i < data.length; i ++) {
             let y = Math.ceil(100 * (1 - (data[i] + buffer) * scale))
@@ -73,6 +75,21 @@ export default class Stonk extends React.Component<StonkProps> {
                         </linearGradient>
                     </defs>
                     <path
+                        d={`${plotString} ${width},100 0,100`}
+                        style={{fill: `url('#${isPositive ? 'positive-gradient' : 'negative-gradient'}')`}}
+                    />
+                    {true && (
+                        <path
+                            d={`M 0,${baseline} ${width},${baseline}`}
+                            style={{
+                                strokeWidth: 2,
+                                fill: 'none',
+                                stroke: '#888',
+                                vectorEffect: 'non-scaling-stroke'
+                            }}
+                        />
+                    )}
+                    <path
                         d={plotString}
                         style={{
                             strokeWidth: 2,
@@ -80,10 +97,6 @@ export default class Stonk extends React.Component<StonkProps> {
                             stroke: isPositive ? '#4CAF50' : '#f44336',
                             vectorEffect: 'non-scaling-stroke'
                         }}
-                    />
-                    <path
-                        d={`${plotString} ${width},100 0,100`}
-                        style={{fill: `url('#${isPositive ? 'positive-gradient' : 'negative-gradient'}')`}}
                     />
                 </svg>
             </div>
