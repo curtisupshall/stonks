@@ -17,6 +17,7 @@ const normalizeData = (data: number[], granularity: number): number[] => {
 interface StonkProps {
     data: number[]
     className?: string
+    floor?: number
     granularity?: number
     height?: number
     isPositive?: boolean
@@ -39,15 +40,16 @@ export default class Stonk extends React.Component<StonkProps> {
         const minValue: number = Math.min(...data)
         const buffer: number = minValue < 0 ? Math.abs(minValue) : 0
         const scale: number = 1 / (Math.max(...data) + buffer)   
-        const baseline: number = Math.ceil(100 * (1 - (buffer * scale)))
+        const baseline: number = Math.ceil((100 - this.props.floor) * (1 - (buffer * scale)))
         const showBaseline: boolean = this.props.showBaseline === false ? false : this.props.showBaseline || baseline > 0
+        console.log('scale:', scale)
 
         console.log('showBaseline: ', showBaseline)
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
         let plotString: string = x === 0 ? 'M' : `M0,${baseline} ${x - unitWidth},${baseline}`
 
         for (let i = 0; i < data.length; i ++) {
-            let y = Math.ceil(100 * (1 - (data[i] + buffer) * scale))
+            let y = Math.ceil((100 - (this.props.floor * scale * 100)) * (1 - (data[i] + buffer) * scale))
             plotString = `${plotString} ${x},${y}`
             x += unitWidth            
         }
