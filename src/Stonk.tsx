@@ -17,6 +17,7 @@ const normalizeData = (data: number[], granularity: number): number[] => {
 interface StonkProps {
     data: number[]
     className?: string
+    children?: any
     floor?: number
     granularity?: number
     height?: number
@@ -67,14 +68,18 @@ export default class Stonk extends React.Component<StonkProps> {
                     style={{overflow: 'visible'}}
                 >
                     <defs>
-                        <linearGradient id='positive-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
-                            <stop style={{stopColor: '#66BB6A', stopOpacity: 0.68}} offset='0%' />
-                            <stop style={{stopColor: '#A5D6A7', stopOpacity: 0.24}} offset='50%' />
-                        </linearGradient>
-                        <linearGradient id='negative-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
-                            <stop style={{stopColor: '#ef5350', stopOpacity: 0.68}} offset='0%' />
-                            <stop style={{stopColor: '#ef9a9a', stopOpacity: 0.24}} offset='50%' />
-                        </linearGradient>
+                        {this.props.children || (
+                            <>
+                                <linearGradient id='positive-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                    <stop style={{stopColor: '#66BB6A', stopOpacity: 0.68}} offset='0%' />
+                                    <stop style={{stopColor: '#A5D6A7', stopOpacity: 0.24}} offset='50%' />
+                                </linearGradient>
+                                <linearGradient id='negative-gradient' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                    <stop style={{stopColor: '#ef5350', stopOpacity: 0.68}} offset='0%' />
+                                    <stop style={{stopColor: '#ef9a9a', stopOpacity: 0.24}} offset='50%' />
+                                </linearGradient>
+                            </>
+                        )}
                     </defs>
                     <path
                         d={`${plotString} ${width},100 0,100`}
