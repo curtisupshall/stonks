@@ -31,6 +31,7 @@ interface StonkProps {
 const DEFAULT_GRANULARITY = 20
 const DEFAULT_HEIGHT = 100
 const DEFAULT_WIDTH = 200
+const DEFAULT_FLOOR = 0
 
 export default class Stonk extends React.Component<StonkProps> {
     render() {
@@ -42,17 +43,20 @@ export default class Stonk extends React.Component<StonkProps> {
         const unitWidth: number = width / (granularity - 1)
         const minValue: number = Math.min(...data)
         const buffer: number = minValue < 0 ? Math.abs(minValue) : 0
-        const scale: number = 1 / (Math.max(...data) + buffer)   
-        const baseline: number = Math.ceil((100 - this.props.floor) * (1 - (buffer * scale)))
+        const scale: number = 1 / (Math.max(...data) + buffer)  
+        const floor = this.props.floor || DEFAULT_FLOOR 
+        const baseline: number = Math.ceil((100 - floor) * (1 - (buffer * scale)))
         const showBaseline: boolean = this.props.showBaseline === false ? false : this.props.showBaseline || baseline > 0
+        
         console.log('scale:', scale)
 
-        console.log('showBaseline: ', showBaseline)
+        console.log('baseline: ', baseline)
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
         let plotString: string = x === 0 ? 'M' : `M0,${baseline} ${x - unitWidth},${baseline}`
 
         for (let i = 0; i < data.length; i ++) {
-            let y = Math.ceil((100 - (this.props.floor * scale * 100)) * (1 - (data[i] + buffer) * scale))
+            let y = Math.ceil((100 - (floor * scale * 100)) * (1 - (data[i] + buffer) * scale))
+            console.log('y = ', y)
             plotString = `${plotString} ${x},${y}`
             x += unitWidth            
         }
