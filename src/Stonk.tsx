@@ -50,7 +50,7 @@ export default class Stonk extends React.Component<StonkProps> {
         
         console.log('scale:', scale)
 
-        console.log('baseline: ', baseline)
+        // console.log('showBaseline: ', showBaseline)
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
         let plotString: string = x === 0 ? 'M' : `M0,${baseline} ${x - unitWidth},${baseline}`
 
@@ -84,11 +84,14 @@ export default class Stonk extends React.Component<StonkProps> {
                                     <stop style={{stopColor: '#ef5350', stopOpacity: 0.68}} offset='0%' />
                                     <stop style={{stopColor: '#ef9a9a', stopOpacity: 0.24}} offset='50%' />
                                 </linearGradient>
-                                <linearGradient id='positive-line' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                <linearGradient id='positive-line' gradientUnits='userSpaceOnUse'>
                                     <stop style={{stopColor: '#4CAF50'}} offset='0%' />
                                 </linearGradient>
-                                <linearGradient id='negative-line' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                <linearGradient id='negative-line' gradientUnits='userSpaceOnUse'>
                                     <stop style={{stopColor: '#f44336'}} offset='0%' />
+                                </linearGradient>
+                                <linearGradient id='baseline' gradientUnits='userSpaceOnUse'>
+                                    <stop style={{stopColor: '#AAA', stopOpacity: 0.86}} offset='0%' />
                                 </linearGradient>
                             </>
                         )}
@@ -97,13 +100,13 @@ export default class Stonk extends React.Component<StonkProps> {
                         d={`${plotString} ${width},100 0,100`}
                         style={{fill: `url('#${isPositive ? 'positive-gradient' : 'negative-gradient'}')`}}
                     />
-                    {true && (
+                    {showBaseline && (
                         <path
                             d={`M 0,${baseline} ${width},${baseline}`}
                             style={{
                                 strokeWidth: 2,
                                 fill: 'none',
-                                stroke: '#888',
+                                stroke: 'url(\'#baseline\')',
                                 vectorEffect: 'non-scaling-stroke'
                             }}
                         />
