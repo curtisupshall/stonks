@@ -2,7 +2,7 @@
 
 Small form-factor line chart for [React](https://github.com/facebook/react).
 
-![Screenshot](https://user-images.githubusercontent.com/18599267/60739627-8707a480-9f17-11e9-8946-de8c0249b8ff.jpg)
+![Screenshot](https://user-images.githubusercontent.com/18599267/60911625-75d0d780-a238-11e9-83d3-80333677301a.png)
 
 ## Installation
 
