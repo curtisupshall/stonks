@@ -2,6 +2,7 @@ import * as React from 'react'
 import { NONAME } from 'dns';
 
 const normalizeData = (data: number[], granularity: number): number[] => {
+    console.log('date in:', data)
     if (data.length <= granularity) {
         return data
     } else {
@@ -10,6 +11,7 @@ const normalizeData = (data: number[], granularity: number): number[] => {
         for (let i = 0; i < granularity; i ++) {
             normalizedData.push(data[Math.ceil(i * scale)])
         }
+        console.log('data out:', normalizedData)
         return normalizedData
     }
 }
@@ -78,6 +80,12 @@ export default class Stonk extends React.Component<StonkProps> {
                                     <stop style={{stopColor: '#ef5350', stopOpacity: 0.68}} offset='0%' />
                                     <stop style={{stopColor: '#ef9a9a', stopOpacity: 0.24}} offset='50%' />
                                 </linearGradient>
+                                <linearGradient id='positive-line' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                    <stop style={{stopColor: '#4CAF50'}} offset='0%' />
+                                </linearGradient>
+                                <linearGradient id='negative-line' x1='0%' x2='0%' y1='0%' y2='100%'>
+                                    <stop style={{stopColor: '#f44336'}} offset='0%' />
+                                </linearGradient>
                             </>
                         )}
                     </defs>
@@ -101,7 +109,7 @@ export default class Stonk extends React.Component<StonkProps> {
                         style={{
                             strokeWidth: 2,
                             fill: 'none',
-                            stroke: isPositive ? '#4CAF50' : '#f44336',
+                            stroke: `url('#${isPositive ? 'positive' : 'negative'}-line')`,
                             vectorEffect: 'non-scaling-stroke'
                         }}
                     />
