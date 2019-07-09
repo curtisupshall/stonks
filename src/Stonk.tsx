@@ -2,7 +2,6 @@ import * as React from 'react'
 import { NONAME } from 'dns';
 
 const normalizeData = (data: number[], granularity: number): number[] => {
-    console.log('date in:', data)
     if (data.length <= granularity) {
         return data
     } else {
@@ -11,7 +10,6 @@ const normalizeData = (data: number[], granularity: number): number[] => {
         for (let i = 0; i < granularity; i ++) {
             normalizedData.push(data[Math.ceil(i * scale)])
         }
-        console.log('data out:', normalizedData)
         return normalizedData
     }
 }
@@ -48,15 +46,11 @@ export default class Stonk extends React.Component<StonkProps> {
         const baseline: number = Math.ceil((100 - floor) * (1 - (buffer * scale)))
         const showBaseline: boolean = this.props.showBaseline === false ? false : this.props.showBaseline || baseline > 0
         
-        console.log('scale:', scale)
-
-        // console.log('showBaseline: ', showBaseline)
         let x: number = Math.ceil(width - unitWidth * (data.length - 1))
         let plotString: string = x === 0 ? 'M' : `M0,${baseline} ${x - unitWidth},${baseline}`
 
         for (let i = 0; i < data.length; i ++) {
             let y = Math.ceil((100 - (floor * scale * 100)) * (1 - (data[i] + buffer) * scale))
-            console.log('y = ', y)
             plotString = `${plotString} ${x},${y}`
             x += unitWidth            
         }
