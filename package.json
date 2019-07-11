@@ -36,5 +36,13 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/curtisupshall/stonks.git"
-  }
+  },
+  "keywords": [
+    "react",
+    "graph",
+    "chart",
+    "line",
+    "plot",
+    "stocks"
+  ]
 }
